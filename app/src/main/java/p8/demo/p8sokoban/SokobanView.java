@@ -380,6 +380,7 @@ public class SokobanView extends SurfaceView implements SurfaceHolder.Callback, 
     
     // fonction permettant de recuperer les evenements tactiles
     public boolean onTouchEvent (MotionEvent event) {
+        CursorPosition(event);
     	Log.i("-> FCT <-", "onTouchEvent: "+ event.getX());
         if(isWon()){
             int x = (int) event.getX();
@@ -407,5 +408,18 @@ public class SokobanView extends SurfaceView implements SurfaceHolder.Callback, 
     		onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
     	} 
     	return super.onTouchEvent(event);    	
+    }
+
+    //add by SD
+    private int[] CursorPosition(MotionEvent event){
+        int position[] = {-1,-1};
+        if(event.getX() > carteLeftAnchor && event.getX() < carteLeftAnchor + ref.length*carteTileSize ){
+            if(event.getY() > carteTopAnchor && event.getY() < carteTopAnchor + ref[0].length*carteTileSize){
+                position[0] = ((int)event.getX()/carteTileSize) - (carteLeftAnchor/carteTileSize);
+                position[1] = ((int)event.getY()/carteTileSize) - (carteTopAnchor/carteTileSize);
+            }
+        }
+        Toast.makeText(mContext,"x= "+Integer.toString(position[0])+" y= "+Integer.toString(position[1]),Toast.LENGTH_SHORT).show();
+        return position;
     }
 }
